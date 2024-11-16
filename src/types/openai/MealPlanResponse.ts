@@ -20,7 +20,7 @@ type Meal = {
   foods: Food[];
 };
 
-export type MealPlan = {
+export type MealPlanResponse = {
   total_calories: number;
   total_macronutrients: Macronutrients;
   meals: Meal[];

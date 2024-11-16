@@ -1,8 +1,8 @@
 import { openai } from '@/config';
-import { MealPlan } from '@/types/MealPlan';
+import { MealPlanResponse } from '@/types/openai';
 import { NextResponse } from 'next/server';
 
-async function generateMeal(): Promise<MealPlan> {
+async function generateMeal(): Promise<MealPlanResponse> {
   const prompt = `
   I want you to act as my personal nutritionist.
   I will tell you about my dietary preferences, allergies, my BMI, gender and target and my daily caloric intake, and you will suggest a meal plan for me in order to reach my target and satisfy my calories. You should only reply with the meal plan you recommend, including the quantities and the nutritional facts of each meal, and nothing else.
@@ -130,12 +130,14 @@ Your final score should be as high as possible. My first request is: 'BMI: ${23.
     },
   });
 
-  return JSON.parse(response.choices[0].message.content ?? '') as MealPlan;
+  return JSON.parse(
+    response.choices[0].message.content ?? ''
+  ) as MealPlanResponse;
 }
 
 export async function POST() {
   try {
-    const mealPlan: MealPlan = await generateMeal();
+    const mealPlan: MealPlanResponse = await generateMeal();
     return NextResponse.json(mealPlan);
   } catch (error) {
     let errorMessage = 'unknown error occured';

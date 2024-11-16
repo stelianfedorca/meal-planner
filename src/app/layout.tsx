@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
         {/* Layout UI */}
-        {children}
+        <main style={{ marginTop: '82px', height: '100%' }}>{children}</main>
       </body>
     </html>
   );
