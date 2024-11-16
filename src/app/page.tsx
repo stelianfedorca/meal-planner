@@ -1,8 +1,8 @@
 'use client';
 
-import { MealPlan } from '@/types/MealPlan';
 import styles from './page.module.css';
 import { useState } from 'react';
+import { MealPlanResponse } from '@/types/openai';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function Home() {
         },
       });
 
-      const result: MealPlan = await response.json();
+      const result: MealPlanResponse = await response.json();
 
       if (result) {
         setIsLoading(false);
@@ -31,6 +31,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <label>Home page</label>
+      <button className={styles['button']}>Insert data into database</button>
       {isLoading ? (
         <p>Loading...</p>
       ) : (

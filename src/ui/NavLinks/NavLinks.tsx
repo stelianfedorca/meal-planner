@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import styles from './NavLinks.module.scss'
+import Link from 'next/link';
+import styles from './NavLinks.module.scss';
 
 export function NavLinks() {
   return (
@@ -9,5 +9,5 @@ export function NavLinks() {
       <Link href="/">Home</Link>
       <Link href="/about">About</Link>
     </nav>
-  )
+  );
 }
