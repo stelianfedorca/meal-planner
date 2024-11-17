@@ -2,5 +2,29 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  min-width: 100px;
+}
+
+.form-input {
+  padding: 8px;
+}
+
+.form-group {
+  display: flex;
+  align-items: baseline;
+}
+
+.buttons-group {
 }
