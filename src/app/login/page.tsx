@@ -1,5 +1,7 @@
+import { Button } from '@/components/ui/button';
 import { login, signup } from './actions';
 import styles from './page.module.scss';
+import { Input } from '@/components/ui/input';
 
 export default async function LoginPage() {
   return (
@@ -9,8 +11,7 @@ export default async function LoginPage() {
           <label htmlFor="email" className={styles['form-label']}>
             Email
           </label>
-          <input
-            className={styles['form-input']}
+          <Input
             id="email"
             name="email"
             type="email"
@@ -23,8 +24,7 @@ export default async function LoginPage() {
           <label htmlFor="password" className={styles['form-label']}>
             Password
           </label>
-          <input
-            className={styles['form-input']}
+          <Input
             id="password"
             name="password"
             type="password"
@@ -34,8 +34,12 @@ export default async function LoginPage() {
         </div>
 
         <div className={styles['buttons-group']}>
-          <button formAction={login}>Sign In</button>
-          <button formAction={signup}>Sign Up</button>
+          <Button formAction={login} className="bg-sky-700">
+            Sign In
+          </Button>
+          <Button formAction={signup} className="bg-sky-700">
+            Sign Up
+          </Button>
         </div>
       </form>
     </div>
