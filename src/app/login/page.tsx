@@ -2,15 +2,16 @@ import { Button } from '@/components/ui/button';
 import { login, signup } from './actions';
 import styles from './page.module.scss';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default async function LoginPage() {
   return (
     <div className={styles.container}>
       <form className={styles.form} action={signup}>
         <div className={styles['form-group']}>
-          <label htmlFor="email" className={styles['form-label']}>
+          <Label htmlFor="email" className={styles['form-label']}>
             Email
-          </label>
+          </Label>
           <Input
             id="email"
             name="email"
@@ -21,9 +22,9 @@ export default async function LoginPage() {
           />
         </div>
         <div className={styles['form-group']}>
-          <label htmlFor="password" className={styles['form-label']}>
+          <Label htmlFor="password" className={styles['form-label']}>
             Password
-          </label>
+          </Label>
           <Input
             id="password"
             name="password"
@@ -34,10 +35,10 @@ export default async function LoginPage() {
         </div>
 
         <div className={styles['buttons-group']}>
-          <Button formAction={login} className="bg-sky-700">
+          <Button formAction={login} className="bg-sky-500 hover:bg-sky-700">
             Sign In
           </Button>
-          <Button formAction={signup} className="bg-sky-700">
+          <Button formAction={signup} className="bg-sky-500 hover:bg-sky-700">
             Sign Up
           </Button>
         </div>
