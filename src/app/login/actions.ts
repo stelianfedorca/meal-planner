@@ -11,8 +11,8 @@ export async function login(formData: FormData) {
   console.log('formData: ', formData);
 
   const data = {
-    email: 'steli.fedorca25@gmail.com',
-    password: 'parola',
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
   };
 
   const { error } = await supabase.auth.signInWithPassword(data);
@@ -26,14 +26,14 @@ export async function login(formData: FormData) {
   redirect('/account');
 }
 
-export async function signup() {
+export async function signup(formData: FormData) {
   const supabase = await createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
-    email: 'steli.fedorca25@gmail.com',
-    password: 'parola',
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
   };
 
   const { error } = await supabase.auth.signUp(data);
