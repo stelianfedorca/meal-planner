@@ -9,11 +9,17 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+
 import styles from './page.module.scss';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import React, { useState } from 'react';
-import { DropdownMenu } from '@/ui/DropdownMenu/DropdownMenu';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Gender, GenderLabels } from '@/types/Gender';
 import {
@@ -26,7 +32,7 @@ import {
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { fields } from '@hookform/resolvers/ajv/src/__tests__/__fixtures__/data.js';
+import { ActivityLevel, activityLevels } from '@/types/ActivityLevels';
 
 const defaultAge = 24;
 const minAge = 10;
@@ -59,6 +65,7 @@ const formSchema = z.object({
     .min(minWeight, { message: `Weight must be at least ${minWeight}` })
     .max(maxWeight, { message: `Weight must be ${maxWeight} or below` })
     .nullable(),
+  activityLevel: z.nativeEnum(ActivityLevel),
 });
 
 export default function CreatePlansPage() {
@@ -69,6 +76,7 @@ export default function CreatePlansPage() {
       height: defaultHeight,
       weight: defaultWeight,
       gender: Gender.Male,
+      activityLevel: ActivityLevel.Sedentary,
     },
   });
 
@@ -109,7 +117,7 @@ export default function CreatePlansPage() {
           </CardHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <CardContent className="border-rose-500 flex flex-col md:flex-row">
+              <CardContent className="border-rose-500 flex flex-col gap-2 md:flex-row">
                 <FormField
                   name="age"
                   control={form.control}
@@ -149,7 +157,7 @@ export default function CreatePlansPage() {
                   name="weight"
                   control={form.control}
                   render={({ field, fieldState }) => (
-                    <FormItem className="mb-5 border">
+                    <FormItem className="border">
                       <FormLabel htmlFor="weight">Weight</FormLabel>
                       <FormControl>
                         <Input
@@ -169,7 +177,8 @@ export default function CreatePlansPage() {
                     </FormItem>
                   )}
                 />
-
+              </CardContent>
+              <CardContent>
                 <FormField
                   name="gender"
                   control={form.control}
@@ -177,20 +186,63 @@ export default function CreatePlansPage() {
                     <FormItem>
                       <FormLabel htmlFor="gender">Gender</FormLabel>
                       <FormControl>
-                        <DropdownMenu
-                          {...field}
-                          onOptionSelect={(
-                            event: React.ChangeEvent<HTMLSelectElement>
-                          ) => {
-                            field.onChange(
-                              Number(event.target.value) as Gender
-                            );
-                          }}
-                          option={field.value}
-                        />
+                        <Select
+                          value={GenderLabels[field.value]}
+                          onValueChange={field.onChange}
+                          defaultValue={GenderLabels[field.value]}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem
+                              key={'Male'}
+                              value={GenderLabels[Gender.Male]}
+                            >
+                              {GenderLabels[Gender.Male]}
+                            </SelectItem>
+                            <SelectItem
+                              key={'Female'}
+                              value={GenderLabels[Gender.Female]}
+                            >
+                              {GenderLabels[Gender.Female]}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                     </FormItem>
                   )}
+                />
+
+                <FormField
+                  name="activityLevel"
+                  control={form.control}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel htmlFor="activityLevel">
+                          Activity Level
+                        </FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select Activity Level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {activityLevels.map((level) => (
+                                <SelectItem key={level} value={level}>
+                                  {level}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    );
+                  }}
                 />
               </CardContent>
               <CardFooter>
