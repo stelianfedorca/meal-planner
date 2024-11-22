@@ -1,9 +1,4 @@
 export enum Gender {
-  Male = 0,
-  Female = 1,
+  Male = 'Male',
+  Female = 'Female',
 }
-
-export const GenderLabels: Record<Gender, string> = {
-  [Gender.Male]: 'Male',
-  [Gender.Female]: 'Female',
-};

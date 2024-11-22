@@ -21,7 +21,7 @@ import styles from './page.module.scss';
 import { Input } from '@/components/ui/input';
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Gender, GenderLabels } from '@/types/Gender';
+import { Gender } from '@/types/Gender';
 import {
   Form,
   FormControl,
@@ -33,6 +33,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivityLevel, activityLevels } from '@/types/ActivityLevels';
+import { goalOptions, Goals } from '@/types/Goals';
 
 const defaultAge = 24;
 const minAge = 10;
@@ -66,6 +67,7 @@ const formSchema = z.object({
     .max(maxWeight, { message: `Weight must be ${maxWeight} or below` })
     .nullable(),
   activityLevel: z.nativeEnum(ActivityLevel),
+  goal: z.nativeEnum(Goals),
 });
 
 export default function CreatePlansPage() {
@@ -77,6 +79,7 @@ export default function CreatePlansPage() {
       weight: defaultWeight,
       gender: Gender.Male,
       activityLevel: ActivityLevel.Sedentary,
+      goal: Goals.LoseWeight,
     },
   });
 
@@ -101,7 +104,7 @@ export default function CreatePlansPage() {
 
       return;
     }
-    console.log('values: ', { ...values, gender: GenderLabels[values.gender] });
+    console.log('values: ', values);
   }
 
   return (
@@ -122,7 +125,7 @@ export default function CreatePlansPage() {
                   name="age"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1">
                       <FormLabel htmlFor="age">Age</FormLabel>
                       <FormControl>
                         <Input
@@ -139,7 +142,7 @@ export default function CreatePlansPage() {
                   name="height"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1">
                       <FormLabel htmlFor="height">Height</FormLabel>
                       <FormControl>
                         <Input
@@ -157,7 +160,7 @@ export default function CreatePlansPage() {
                   name="weight"
                   control={form.control}
                   render={({ field, fieldState }) => (
-                    <FormItem className="border">
+                    <FormItem className="flex-1">
                       <FormLabel htmlFor="weight">Weight</FormLabel>
                       <FormControl>
                         <Input
@@ -177,35 +180,30 @@ export default function CreatePlansPage() {
                     </FormItem>
                   )}
                 />
-              </CardContent>
-              <CardContent>
                 <FormField
                   name="gender"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1">
                       <FormLabel htmlFor="gender">Gender</FormLabel>
                       <FormControl>
                         <Select
-                          value={GenderLabels[field.value]}
+                          value={field.value}
                           onValueChange={field.onChange}
-                          defaultValue={GenderLabels[field.value]}
+                          defaultValue={field.value}
                         >
                           <SelectTrigger className="w-full">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem
-                              key={'Male'}
-                              value={GenderLabels[Gender.Male]}
-                            >
-                              {GenderLabels[Gender.Male]}
+                            <SelectItem key={Gender.Male} value={Gender.Male}>
+                              {Gender.Male}
                             </SelectItem>
                             <SelectItem
-                              key={'Female'}
-                              value={GenderLabels[Gender.Female]}
+                              key={Gender.Female}
+                              value={Gender.Female}
                             >
-                              {GenderLabels[Gender.Female]}
+                              {Gender.Female}
                             </SelectItem>
                           </SelectContent>
                         </Select>
@@ -213,7 +211,8 @@ export default function CreatePlansPage() {
                     </FormItem>
                   )}
                 />
-
+              </CardContent>
+              <CardContent className="flex flex-col gap-2">
                 <FormField
                   name="activityLevel"
                   control={form.control}
@@ -244,11 +243,38 @@ export default function CreatePlansPage() {
                     );
                   }}
                 />
+
+                <FormField
+                  name="goal"
+                  control={form.control}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel htmlFor="goal">Goal</FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Choose a goal" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {goalOptions.map((goal) => (
+                                <SelectItem key={goal} value={goal}>
+                                  {goal}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    );
+                  }}
+                />
               </CardContent>
               <CardFooter>
-                <Button type="submit" className="bg-rose-500">
-                  Submit
-                </Button>
+                <Button type="submit">Submit</Button>
               </CardFooter>
             </form>
           </Form>
